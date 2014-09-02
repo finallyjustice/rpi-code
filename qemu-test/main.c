@@ -12,8 +12,15 @@ void print(const char *str)
 	}
 }
 
+void swi_handler()
+{
+	print("This is swi handler\n");
+	while(1);
+}
+
 void bootmain()
 {
 	print("Hello World\n");
+	__asm__ ("swi #0");
 	as_print("Bare Metal on QEMU");
 }

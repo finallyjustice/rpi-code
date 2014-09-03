@@ -2,7 +2,7 @@
 _start:
 	b ResetHandler
 	b .
-	b SWIHandler
+	b .
 	b .
 	b .
 	b .

@@ -21,6 +21,6 @@ void swi_handler()
 void bootmain()
 {
 	print("Hello World\n");
-	__asm__ ("swi #0");
+	//__asm__ ("swi #0");
 	as_print("Bare Metal on QEMU");
 }

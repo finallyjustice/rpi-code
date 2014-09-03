@@ -16,10 +16,18 @@ void uprint(char *s)
 int bootmain(void)
 {
 	uart_init();
-	
+
+	int s = 100;
+	int arr[100];
+	int i;
+	for(i=0; i<s; i++)
+	{
+		arr[i] = 0x100;
+	}
+
+	hexstring(arr[10]);
 	uprint("Test TrustZone\n");
-	//int value;
-	int addr = &uprint;
-	hexstring(addr);
+	uprint("Hello World\n");
+	
 	while(1);
 }

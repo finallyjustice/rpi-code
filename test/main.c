@@ -1,6 +1,8 @@
 #include "io.h"
 #include "uart.h"
 
+extern void monitorInit();
+
 void uprint(char *s)
 {
 	int i = 0;
@@ -10,6 +12,15 @@ void uprint(char *s)
 			uart_send('\r');
 		uart_send(s[i]);
 		i++;
+	}
+}
+
+void Normal_World()
+{
+	while(1) 
+	{
+		uprint("hello from Normal world\n");
+		asm volatile("smc #0\n\t") ;
 	}
 }
 
@@ -28,6 +39,16 @@ int bootmain(void)
 	hexstring(arr[10]);
 	uprint("Test TrustZone\n");
 	uprint("Hello World\n");
+
+	monitorInit(Normal_World);
 	
+	uprint("Install Monitor Successfully\n");
+
+	while(1) 
+	{
+		uprint("hello from Secure world\n\r");
+		asm volatile("smc #0\n\t") ;
+	};
+
 	while(1);
 }

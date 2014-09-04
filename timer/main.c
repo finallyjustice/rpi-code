@@ -104,10 +104,10 @@ int bootmain(void)
 
 	unsigned int ra;
 
-	ra=GET32(GPFSEL1);
-	ra&=~(7<<18);
-	ra|=1<<18;
-	PUT32(GPFSEL1,ra);
+	//ra=GET32(GPFSEL1);
+	//ra&=~(7<<18);
+	//ra|=1<<18;
+	//PUT32(GPFSEL1,ra);
 
 	ra=GET32(SYSTIMERCLO);
 	cprintf("time1: %d, %x\n", ra, ra);

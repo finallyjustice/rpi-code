@@ -109,10 +109,19 @@ int bootmain(void)
 	//ra|=1<<18;
 	//PUT32(GPFSEL1,ra);
 
+	int i;
+	int sum = 0;
+
 	ra=GET32(SYSTIMERCLO);
 	cprintf("time1: %d, %x\n", ra, ra);
+
+	for(i=1; i<=100; i++)
+		sum += i;
+
 	ra=GET32(SYSTIMERCLO);
 	cprintf("time2: %d, %x\n", ra, ra);
+
+	cprintf("SUM: %d\n", sum);
 
 	while(1)
 	{

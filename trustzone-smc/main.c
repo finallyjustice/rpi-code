@@ -1,86 +1,124 @@
 #include "io.h"
 #include "uart.h"
 
+extern void monitorInit();
+
 void uprint(char *s)
 {
 	int i = 0;
 	while(s[i])
 	{
+		if(s[i] == '\n')
+			uart_send('\r');
 		uart_send(s[i]);
 		i++;
 	}
-	uart_send('\r');
-	uart_send('\n');
 }
 
-void smc_handler(void)
+static void printint(int xx, int base, int sign)
 {
-	uprint("In SMC Handler");
-	while(1);
+	static char digits[] = "0123456789abcdef";
+	char buf[16];
+	int i;
+	unsigned int x;
+
+	if(sign && (sign = xx < 0))
+		x = -xx;
+	else
+		x = xx;
+
+	i = 0;
+	do{
+		buf[i++] = digits[x % base];
+	}while((x /= base) != 0);
+
+	if(sign)
+		buf[i++] = '-';
+
+	while(--i >= 0)
+		uart_send(buf[i]);
 }
 
-// first "C" function
+void cprintf(char *fmt, ...)
+{
+	int i, c;
+	unsigned int *argp;
+	char *s;
+
+	argp = (unsigned int*)(void*)(&fmt + 1);
+	for(i = 0; (c = fmt[i] & 0xff) != 0; i++)
+	{
+		if(c != '%')
+		{
+			if(c == '\n')
+				uart_send('\r');
+			uart_send(c);
+			continue;
+		}
+		c = fmt[++i] & 0xff;
+		if(c == 0)
+			break;
+		switch(c)
+		{
+		case 'd':
+			printint(*argp++, 10, 1);
+			break;
+		case 'x':
+		case 'p':
+			printint(*argp++, 16, 0);
+			break;
+		case 's':
+			if((s = (char*)*argp++) == 0)
+				s = "(null)";
+			for(; *s; s++)
+				uart_send(*s);
+			break;
+		case '%':
+			uart_send('%');
+			break;
+		default:
+			// Print unknown % sequence to draw attention.
+			uart_send('%');
+			uart_send(c);
+			break;
+		}
+	}
+}
+
+void Normal_World()
+{
+	while(1) 
+	{
+		cprintf("hello from Normal world: %d\n", 100);
+		asm volatile("smc #0\n\t") ;
+	}
+}
+
 int bootmain(void)
 {
-	// init uart to enable debugging with TTL
-    uart_init();
+	uart_init();
 
-	// print string
-	uprint("Test TrustZone");
+	int s = 100;
+	int arr[100];
+	int i;
+	for(i=0; i<s; i++)
+	{
+		arr[i] = 0x100;
+	}
 
-	setup_monitor();
-	uprint("Setup Secure Monitor!");
+	hexstring(arr[10]);
+	uprint("Test TrustZone\n");
+	uprint("Hello World\n");
 
-	int scr_val = 1;
-
-	__asm__ volatile(
-		"mrc p15, 0, r0, c1, c1, 0\n\t"
-		"mov %0, r0\n\t"
-		: "=r"(scr_val)
-		: 
-		: "r0"
-	);
-
-	if(scr_val & 0x1)
-		uprint("TrustZone NS Bit is 1");
-	else
-		uprint("TrustZone NS Bit is 0");
-
-	uprint("Begin Set TrustZone NS Bit to 1");
+	monitorInit(Normal_World);
 	
-	__asm__ volatile(
-		"mrc p15, 0, r0, c1, c1, 0\n\t"
-		"mov r1, r0\n\t"
-		"add r0, r1, #1\n\t"
-		"mcr p15, 0, r0, c1, c1, 0\n\t"
-		: 
-		: 
-		: "r0","r1"
-	);
+	uprint("Install Monitor Successfully\n");
 
-	uprint("End Set TrustZone NS Bit to 1");
-	
-	__asm__ volatile("smc #0");
-	
-	uprint("After SMC");
+	for(i=0; i<10; i++)	
+	{
+		cprintf("hello from Secure world: %d\n", i);
+		asm volatile("smc #0\n\t") ;
+	};
 
-	/*scr_val = 0;
-
-	__asm__ volatile(
-		"mrc p15, 0, r0, c1, c1, 0\n\t"
-		"mov %0, r0\n\t"
-		: "=r"(scr_val)
-		: 
-		: "r0"
-	);
-
-	uprint("Read TrustZone NS Bit");
-	if(scr_val & 0x1)
-		uprint("TrustZone NS Bit is 1");
-	else
-		uprint("TrustZone NS Bit is 0");
-	*/
 	while(1);
-    
-	return(0);
 }

@@ -22,3 +22,5 @@ extern unsigned int uart_lcr(void);
 extern void uart_flush(void);
 extern void uart_send(unsigned int);
 extern unsigned int uart_recv(void);
+extern void hexstring(unsigned int d);
+extern void hexstrings(unsigned int d);

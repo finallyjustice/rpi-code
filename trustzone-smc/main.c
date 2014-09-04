@@ -85,11 +85,14 @@ void cprintf(char *fmt, ...)
 	}
 }
 
+#define SYSTIMERCLO 0x20003004
+
 void Normal_World()
 {
 	while(1) 
 	{
-		cprintf("hello from Normal world: %d\n", 100);
+		int rb = GET32(SYSTIMERCLO);
+		cprintf("hello from Normal world: %d %x\n", rb, rb);
 		asm volatile("smc #0\n\t") ;
 	}
 }
@@ -116,8 +119,10 @@ int bootmain(void)
 
 	for(i=0; i<10; i++)	
 	{
-		cprintf("hello from Secure world: %d\n", i);
-		asm volatile("smc #0\n\t") ;
+		int ra=GET32(SYSTIMERCLO);
+		cprintf("hello from Secure world\n");
+		asm volatile("smc #0\n\t");
+		cprintf("time in secure: %d %x\n", ra, ra);
 	};
 
 	while(1);

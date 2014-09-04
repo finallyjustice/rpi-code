@@ -20,7 +20,7 @@ uart.o : uart.c io.h
 	$(CC) $(CFLAGS) -c uart.c -o uart.o
 
 kernel.img : kernel.ld entry.o uart.o main.o 
-	$(LD) entry.o uart.o main.o -T kernel.ld -o kernel.elf
+	$(LD) entry.o uart.o main.o -T kernel.ld -o kernel.elf -L . -lgcc
 	$(OBJDUMP) -D kernel.elf > kernel.asm
 	$(OBJCOPY) kernel.elf -O binary kernel.img
 

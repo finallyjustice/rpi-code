@@ -17,7 +17,7 @@ main.o : main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o 
 
 kernel.img : kernel.ld entry.o main.o 
-	$(LD) entry.o main.o -T kernel.ld -o kernel.elf
+	$(LD) entry.o main.o -T kernel.ld -o kernel.elf -L . -lgcc
 	$(OBJDUMP) -S kernel.elf > kernel.asm
 	$(OBJDUMP) -t kernel.elf | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > kernel.sym
 	$(OBJCOPY) kernel.elf -O binary kernel.img

@@ -16,14 +16,6 @@ ResetHandler:
 	bl bootmain
 	b .
 
-SWIHandler:
-	ldr sp, =stack_top
-	ldr r0, =MESSAGE
-	bl as_print
-	b .
-	bl swi_handler
-	b .
-
 # assembly (AS) version of print
 .global	as_print
 as_print:

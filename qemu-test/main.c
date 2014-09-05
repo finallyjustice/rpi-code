@@ -85,16 +85,9 @@ void cprintf(char *fmt, ...)
 	}
 }
 
-void swi_handler()
-{
-	print_string("This is swi handler\n");
-	while(1);
-}
-
 void bootmain()
 {
 	print_string("Hello World\n");
-	//__asm__ ("swi #0");
 	as_print("Bare Metal on QEMU\n");
 	uart_send('A');
 

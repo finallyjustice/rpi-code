@@ -119,8 +119,8 @@ int bootmain(void)
 
 	for(i=0; i<10; i++)	
 	{
-		int ra=GET32(SYSTIMERCLO);
 		cprintf("hello from Secure world\n");
+		int ra=GET32(SYSTIMERCLO);
 		asm volatile("smc #0\n\t");
 		cprintf("time in secure: %d %x\n", ra, ra);
 	};

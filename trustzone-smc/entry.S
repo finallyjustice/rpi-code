@@ -44,10 +44,10 @@ IRQAddr:        .word IRQHandler
 FIQAddr:        .word FIQHandler
 
 reset:
-	bl CPU_SVC32_MODE
-	bl Disable_MMU_L1cache
-	bl Init_aips
-	bl Init_clock
+#	bl CPU_SVC32_MODE
+#	bl Disable_MMU_L1cache
+#	bl Init_aips
+#	bl Init_clock
 	
 /* --- Initialize stack pointer registers
 	   Enter each mode in turn and set up the stack pointer */
@@ -89,7 +89,7 @@ reset:
 
 CPU_SVC32_MODE:
 	mrs r0, cpsr        /*read cpsr register status*/
-	bic r0, r0, #0x1f   /*cpsr mode bit clear*/
+	bic r0, r0, #0x1f   /*cpsr mode bit clear. 1f means the last five bits*/
 	orr r0, r0, #0xd3   /*FIQ&IRQ Disable and set cpu svc mode*/
 	msr cpsr, r0
 	bx lr
@@ -249,8 +249,8 @@ monitorInit:
 	@ -----------------------
 	LDR r1, =ns_image                    /* R1 is used !!!!*/
 	STR r0, [r1]
-	LDR     r0, =monitor                 @ Get address of Monitors vector table
-	MCR     p15, 0, r0, c12, c0, 1       @ Write Monitor Vector Base Address Register
+	LDR r0, =monitor                 @ Get address of Monitors vector table
+	MCR p15, 0, r0, c12, c0, 1       @ Write Monitor Vector Base Address Register
 
 	@ Save Secure state
 	@ ------------------

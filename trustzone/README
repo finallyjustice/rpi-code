@@ -1,0 +1,8 @@
+This is the sample code of TrustZone on Raspberry Pi B+.
+
+SMC instruction transits between Secure World and Normal World.
+
+Just run "make" and replace the replace the /boot/kernel.img of RPI B+ with this kernel.img.
+
+Contact: Dongli Zhang
+Email: dongli.zhang0129@gmail.com

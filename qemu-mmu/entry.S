@@ -1,3 +1,5 @@
+#include "memlayout.h"
+
 .global vector_start
 .global vector_end
 
@@ -48,3 +50,11 @@ IRQHandler:
 
 FIQHandler:
 	b .
+
+# during startup, kernel stack uses user address, now switch it to kernel addr
+.global jump_stack
+jump_stack:
+	MOV     r0, sp
+	ADD     r0, r0, #0x80000000
+	MOV     sp, r0
+	MOV     pc, lr

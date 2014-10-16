@@ -1,4 +1,4 @@
-volatile unsigned char * const UART0_BASE = (unsigned char *)0x0101f1000;
+volatile unsigned char * const UART0_BASE = (unsigned char *)0x901f1000;
 
 void uart_send(unsigned int c)
 {

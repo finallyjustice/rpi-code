@@ -6,7 +6,7 @@ LD = $(CROSS_PREFIX)ld
 OBJCOPY = $(CROSS_PREFIX)objcopy
 OBJDUMP = $(CROSS_PREFIX)objdump
 
-CFLAGS = -Wall -O0 -nostdlib -nostartfiles -ffreestanding 
+CFLAGS = -Wall -O0 -nostdlib -nostartfiles -ffreestanding
 LDFLAGS = -L . -lgcc
 
 OBJS = \

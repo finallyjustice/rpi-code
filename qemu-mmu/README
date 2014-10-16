@@ -1,4 +1,4 @@
-Tiny bare metal ARM OS on QEMU (ARM) to test ARM MMU.
+Tiny bare metal ARM OS on QEMU (ARM) to test ARM MMU (both kernel and user).
 
 Contact: Dongli Zhang
 Email: dongli.zhang0129@gmail.com

@@ -17,10 +17,12 @@
 #define AUX_MU_STAT_REG 0x20215064
 #define AUX_MU_BAUD_REG 0x20215068
 
-extern void uart_init(void);
-extern unsigned int uart_lcr(void);
-extern void uart_flush(void);
-extern void uart_send(unsigned int);
-extern unsigned int uart_recv(void);
-extern void hexstring(unsigned int d);
-extern void hexstrings(unsigned int d);
+void uart_init(void);
+unsigned int uart_lcr(void);
+void uart_flush(void);
+void uart_send(unsigned int);
+unsigned int uart_recv(void);
+void hexstring(unsigned int d);
+void hexstrings(unsigned int d);
+void printint(int xx, int base, int sign);
+void cprintf(char *fmt, ...);

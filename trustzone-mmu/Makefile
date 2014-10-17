@@ -7,21 +7,23 @@ OBJCOPY = $(CROSS_PREFIX)objcopy
 OBJDUMP = $(CROSS_PREFIX)objdump
 
 CFLAGS = -Wall -O0 -nostdlib -nostartfiles -ffreestanding -mcpu=arm1176jzf-s
+LDFLAGS = -L . -lgcc
+
+OBJS = \
+	main.o \
+	uart.o \
+	normal_entry.o \
+	normal_main.o \
 
 all : kernel.img
 
 entry.o : entry.S
 	$(AS) entry.S -o entry.o
 
-main.o : main.c io.h
-	$(CC) $(CFLAGS) -c main.c -o main.o
-
-uart.o : uart.c io.h
-	$(CC) $(CFLAGS) -c uart.c -o uart.o
-
-kernel.img : kernel.ld entry.o uart.o main.o 
-	$(LD) entry.o uart.o main.o -T kernel.ld -o kernel.elf -L . -lgcc
+kernel.img : kernel.ld entry.o $(OBJS) 
+	$(LD) entry.o $(OBJS) -T kernel.ld -o kernel.elf -L . -lgcc
 	$(OBJDUMP) -D kernel.elf > kernel.asm
+	$(OBJDUMP) -t kernel.elf | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > kernel.sym
 	$(OBJCOPY) kernel.elf -O binary kernel.img
 
 clean :

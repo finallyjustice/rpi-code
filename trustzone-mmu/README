@@ -1,5 +1,6 @@
 This is a tiny bare metal kernel running on Raspberry Pi B+. 
 The kernel boots with UART driver to test TrustZone feature.
+MMU is enabled.
 
 Install
 Replace the kernel.img on mini-sd card with this kernel.img.

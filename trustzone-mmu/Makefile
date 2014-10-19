@@ -27,4 +27,4 @@ kernel.img : kernel.ld entry.o $(OBJS)
 	$(OBJCOPY) kernel.elf -O binary kernel.img
 
 clean :
-	rm -f *.o *.elf *.asm *.img 
+	rm -f *.o *.elf *.asm *sym *.img 

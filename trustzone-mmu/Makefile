@@ -10,18 +10,16 @@ CFLAGS = -Wall -O0 -nostdlib -nostartfiles -ffreestanding -mcpu=arm1176jzf-s
 LDFLAGS = -L . -lgcc
 
 OBJS = \
-	main.o \
-	uart.o \
+	secure_entry.o \
+	secure_start.o \
+	secure_uart.o \
 	normal_entry.o \
-	normal_main.o \
+	normal_start.o \
 
 all : kernel.img
 
-entry.o : entry.S
-	$(AS) entry.S -o entry.o
-
-kernel.img : kernel.ld entry.o $(OBJS) 
-	$(LD) entry.o $(OBJS) -T kernel.ld -o kernel.elf -L . -lgcc
+kernel.img : kernel.ld $(OBJS) 
+	$(LD) $(OBJS) -T kernel.ld -o kernel.elf $(LDFLAGS)
 	$(OBJDUMP) -D kernel.elf > kernel.asm
 	$(OBJDUMP) -t kernel.elf | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$$/d' > kernel.sym
 	$(OBJCOPY) kernel.elf -O binary kernel.img

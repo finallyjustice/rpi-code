@@ -1,3 +1,6 @@
+#ifndef __UART_H__
+#define __UART_H__
+
 #define GPFSEL1 0x20200004
 #define GPSET0  0x2020001C
 #define GPCLR0  0x20200028
@@ -18,11 +21,11 @@
 #define AUX_MU_BAUD_REG 0x20215068
 
 void uart_init(void);
-unsigned int uart_lcr(void);
-void uart_flush(void);
-void uart_send(unsigned int);
-unsigned int uart_recv(void);
-void hexstring(unsigned int d);
-void hexstrings(unsigned int d);
-void printint(int xx, int base, int sign);
-void cprintf(char *fmt, ...);
+unsigned int sec_uart_lcr(void);
+void sec_uart_flush(void);
+void sec_uart_send(unsigned int);
+unsigned int sec_uart_recv(void);
+void sec_printint(int xx, int base, int sign);
+void sec_cprintf(char *fmt, ...);
+
+#endif

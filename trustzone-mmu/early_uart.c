@@ -3,12 +3,12 @@
 
 // GPIO14 TXD0 and TXD1
 // GPIO15 RXD0 and RXD1
-unsigned int uart_lcr(void)
+unsigned int early_uart_lcr(void)
 {
 	return(GET32(AUX_MU_LSR_REG));
 }
 
-unsigned int uart_recv(void)
+unsigned int early_uart_recv(void)
 {
     while(1)
     {

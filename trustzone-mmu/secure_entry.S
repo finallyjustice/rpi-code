@@ -234,37 +234,37 @@ monitorInit:
 	MOVS    pc, lr
 
 
-.global PUT32
-PUT32:
+.global SEC_PUT32
+SEC_PUT32:
 	str r1, [r0]
 	bx lr
 
-.global PUT16
-PUT16:
+.global SEC_PUT16
+SEC_PUT16:
 	strh r1, [r0]
 	bx lr
 
-.global PUT8
-PUT8:
+.global SEC_PUT8
+SEC_PUT8:
 	strb r1, [r0]
 	bx lr
 
-.global GET32
-GET32:
+.global SEC_GET32
+SEC_GET32:
 	ldr r0, [r0]
 	bx lr
 
-.global GETPC
-GETPC:
+.global SEC_GETPC
+SEC_GETPC:
 	mov r0, lr
 	bx lr
 
-.global BRANCHTO
-BRANCHTO:
+.global SEC_BRANCHTO
+SEC_BRANCHTO:
 	bx r0
 
-.global dummy
-dummy:
+.global SEC_DUMMY
+SEC_DUMMY:
 	bx lr
 
 @ ------------------------------------------------------------

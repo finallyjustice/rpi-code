@@ -9,6 +9,14 @@ unsigned int SEC_GETPC(void);
 void SEC_BRANCHTO(unsigned int);
 void SEC_DUMMY(unsigned int);
 
+void PUT32(unsigned int, unsigned int);
+void PUT16(unsigned int, unsigned int);
+void PUT8(unsigned int, unsigned int);
+unsigned int GET32(unsigned int);
+unsigned int GETPC(void);
+void BRANCHTO(unsigned int);
+void DUMMY(unsigned int);
+
 void setup_monitor(void);
 
 #endif

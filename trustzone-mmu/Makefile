@@ -15,6 +15,8 @@ OBJS = \
 	secure_uart.o \
 	normal_entry.o \
 	normal_start.o \
+	normal_main.o \
+	asm.o \
 
 all : kernel.img
 

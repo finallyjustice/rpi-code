@@ -70,9 +70,9 @@ reset:
 #ldr sp, =STACK_ADR
 	bl bootmain
 
-.ltorg
-.section .init, "ax"
-.code 32
+#.ltorg
+#.section .init, "ax"
+#.code 32
 	
 	Mode_MON            =   0x16
 	Mode_SVP            =   0x13

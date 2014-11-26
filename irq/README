@@ -1,0 +1,8 @@
+This is a tiny bare metal kernel running on Raspberry Pi B+. 
+It is used to test the swi instruction.
+
+Install
+Replace the kernel.img on mini-sd card with this kernel.img.
+
+Contact: Dongli Zhang
+Email: dongli.zhang0129@gmail.com
